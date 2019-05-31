@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <h3>LOGIN FORM</h3>
     <form id="login-form" method="post" action="authen_login.php" >
         <table border="0.5" >

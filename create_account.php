@@ -22,10 +22,16 @@ if ($conn->query($sql) === TRUE) {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
+session_start(); // session start
+include("global.php");
+$username = $user_id;
+$_SESSION['username']=$username ; // Session Set
+
 $conn->close();
 ?>
 
 <form action="game.php" method="post">
+<p>Welcome: <?php echo $_POST["user_id"]; ?><p/>
 <input type="submit" value="Continue">
 </form>
 

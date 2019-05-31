@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-
+<?php
+session_start(); // session start
+$getvalue = $_SESSION['username']; // session get
+echo $getvalue;
+?>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -95,7 +99,7 @@ function updateGameArea() {
     var x, height, gap, minHeight, maxHeight, minGap, maxGap;
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
-            return;
+            return; 
         } 
     }
     myGameArea.clear();
@@ -136,4 +140,70 @@ function accelerate(n) {
 <p>How long can you stay alive?</p>
 </body>
 </html>
+
+<?php
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname="db";
+$score = myScore;
+//create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+//check connection
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
+}
+
+echo "Connected successfully";
+
+$sql = "SELECT id FROM user_login WHERE username='$getvalue'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "id: " . $row['id']. "<br>";
+		$id = $row['id'];
+    }
+} else {
+    echo "0 results";
+}
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_errno) {
+    printf("Connect failed: %s\n", $con->connect_error);
+    exit();
+}
+if ($result = $conn->query($sql)) {
+    // $result is an object and can be used to fetch row here
+}
+else {
+    printf("Query failed: %s\n", $conn->error);
+}
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+
+$sql = "INSERT INTO users_score (id, user_score)
+VALUES ('$id', '$score')";
+
+if ($conn->query($sql) === TRUE) {
+    echo "New record created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+$conn->close();
+
+
+
+
+?>
+
 
