@@ -88,7 +88,6 @@ if ($result->num_rows > 0) {
 		
 		if($score >= 0)
 {
-	echo $score;
 }
 else
 {
@@ -112,20 +111,6 @@ else
 		$score = $score;
 	}
 	
-	//create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-//check connection
-if ($conn->connect_errno) {
-    printf("Connect failed: %s\n", $con->connect_error);
-    exit();
-}
-if ($result = $conn->query($sql)) {
-    // $result is an object and can be used to fetch row here
-}
-else {
-    printf("Query failed: %s\n", $conn->error);
-}
-
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
@@ -133,8 +118,27 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$sql = "INSERT INTO users_score (id, user_score)
-VALUES ('$id', '$score')";
+	$sql = "SELECT * FROM users_score  WHERE id ='$id'";
+    $result = $conn->query($sql); // here $dbc is your mysqli $link
+    if (!$result) {
+        echo ' Database Error Occured ';
+    }
+
+    if ($result->num_rows == 0) { // IF no previous user is using this username.
+
+        $sql = "INSERT INTO users_score (id, user_score)
+		VALUES ('$id', '$score')";
+
+        $result = $sql;
+        if (!$result) 
+		{
+            echo 'Query Failed ';
+        }
+	}
+	else
+	{
+		$sql ="UPDATE users_score SET user_score = '$score' WHERE id ='$id'";
+	}
 
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
@@ -197,7 +201,7 @@ if ($result->num_rows > 0) {
 		$score = $row['user_score'];
     }
 } else {
-    echo "0 results";
+	$score = 0;
 }
 	
 	$coin = rand(1,2);
@@ -212,29 +216,34 @@ if ($result->num_rows > 0) {
 		$score++;
 	}
 	
-	//create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-//check connection
-if ($conn->connect_errno) {
-    printf("Connect failed: %s\n", $con->connect_error);
-    exit();
-}
-if ($result = $conn->query($sql)) {
-    // $result is an object and can be used to fetch row here
-}
-else {
-    printf("Query failed: %s\n", $conn->error);
-}
-
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
-//NEED TO CHECK IF THE USER EXISTS.
-$sql = "INSERT INTO users_score (id, user_score)
-VALUES ('$id', '$score')";
+
+	$sql = "SELECT * FROM users_score  WHERE id ='$id'";
+    $result = $conn->query($sql); // here $dbc is your mysqli $link
+    if (!$result) {
+        echo ' Database Error Occured ';
+    }
+
+    if ($result->num_rows == 0) { // IF no previous user is using this username.
+
+        $sql = "INSERT INTO users_score (id, user_score)
+		VALUES ('$id', '$score')";
+
+        $result = $sql;
+        if (!$result) 
+		{
+            echo 'Query Failed ';
+        }
+	}
+	else
+	{
+		$sql ="UPDATE users_score SET user_score = '$score' WHERE id ='$id'";
+	}
 
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
