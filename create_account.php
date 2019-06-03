@@ -6,6 +6,7 @@ $dbname = "db";
 $user_id = $_POST['user_id'];
 $user_pass = $_POST['user_pass'];
 
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
@@ -20,6 +21,8 @@ if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
+	header('Location: index.php?success=1');
+    exit;
 }
 
 session_start(); // session start

@@ -38,4 +38,11 @@
         </table>
     </form>
 </body>
+<?php
+if ( isset($_GET['success']) && $_GET['success'] == 1 )
+{
+     // treat the succes case ex:
+     echo "User Already Exists";
+}
+?>
 </html>
