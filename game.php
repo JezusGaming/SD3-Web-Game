@@ -1,5 +1,24 @@
 <!DOCTYPE html>
 
+<style>
+.center { 
+  height: 200px;
+  position: relative;
+  border: 3px solid green; 
+}
+
+.center form {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+
+</style>
+<div class="center">
 	<form id="coinPicker" method="post" action="game.php" >
         <table border="0.5" >
             <tr>
@@ -26,15 +45,11 @@ if (isset($_POST['Coin'])){
 	{
 		flipCoinHeads();
 	}
-	else
-	{
-		echo "Invalid Input please type Heads or Tails with a capital letter";
-	}
 	if($Coin == "Tails")
 	{
 		flipCoinTails();
 	}
-	else
+	if($Coin == "Tails" && $Coin == "Heads")
 	{
 		echo "Invalid Input please type Heads or Tails with a capital letter";
 	}
@@ -57,15 +72,12 @@ if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
 
-echo "Connected successfully";
-
 $sql = "SELECT id FROM user_login WHERE username='$getvalue'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "id: " . $row['id']. "<br>";
 		$id = $row['id'];
     }
 } else {
@@ -80,15 +92,12 @@ if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
 
-echo "Connected successfully";
-
 $sql = "SELECT user_score FROM users_score WHERE id='$id'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "score: " . $row['user_score']. "<br>";
 		$score = $row['user_score'];
     }
 } else {
@@ -99,13 +108,17 @@ if ($result->num_rows > 0) {
 
 	if ($coin == 1)
 	{
-		echo ("Heads, You Win");
+		echo ("Heads, You Win<br>");
 		$score++;
+		echo "username: $getvalue <br>";
+		echo "score: $score <br>";
 	}
 	else
 	{
-		echo("Tails, You Lost");
+		echo("Tails, You Lost<br>");
 		$score = $score;
+		echo "username: $getvalue <br>";
+		echo "score: $score <br>";
 	}
 	
 // Create connection
@@ -138,7 +151,6 @@ if ($conn->connect_error) {
 	}
 
 if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
@@ -163,15 +175,12 @@ if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
 
-echo "Connected successfully";
-
 $sql = "SELECT id FROM user_login WHERE username='$getvalue'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "id: " . $row['id']. "<br>";
 		$id = $row['id'];
     }
 } else {
@@ -186,15 +195,12 @@ if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
 
-echo "Connected successfully";
-
 $sql = "SELECT user_score FROM users_score WHERE id='$id'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "score: " . $row['user_score']. "<br>";
 		$score = $row['user_score'];
     }
 } else {
@@ -205,12 +211,16 @@ if ($result->num_rows > 0) {
 
 	if ($coin == 1)
 	{
-		echo ("Heads, You Lost");
+		echo ("Heads, You Lost<br>");
+		echo "username: $getvalue<br>";
+		echo "score: $score <br>";
 	}
 	else
 	{
-		echo("Tails, You Win");
+		echo("Tails, You Win<br>");
 		$score++;
+		echo "username: $getvalue <br>";
+		echo "score: $score <br>";
 	}
 	
 // Create connection
@@ -243,7 +253,6 @@ if ($conn->connect_error) {
 	}
 
 if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
@@ -251,3 +260,4 @@ if ($conn->query($sql) === TRUE) {
 $conn->close();
 }
 ?>
+</div>

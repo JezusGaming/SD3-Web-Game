@@ -1,5 +1,23 @@
 <!DOCTYPE html>
 
+<style>
+.center { 
+  height: 200px;
+  position: relative;
+  border: 3px solid green; 
+}
+
+.center form {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+</style>
+
+<div class="center">
 <h3>LOGIN FORM</h3>
     <form id="login-form" method="post" action="authen_login.php" >
         <table border="0.5" >
@@ -38,6 +56,7 @@
         </table>
     </form>
 </body>
+</div>
 <?php
 if ( isset($_GET['success']) && $_GET['success'] == 1 )
 {
